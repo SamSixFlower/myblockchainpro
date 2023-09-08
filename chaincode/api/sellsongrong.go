@@ -11,10 +11,63 @@ import (
 	"github.com/hyperledger/fabric/core/chaincode/shim"
 	pb "github.com/hyperledger/fabric/protos/peer"
 )
-
+/*
+case "sellSongrong":
+		return api.SellSongrong(stub, args)
+	case "buySongrong":
+		return api.BuySongrong(stub, args)
+	case "signSongrong":
+		return api.SignSongrong(stub, args)
+	case "signBaozhuang":
+		return api.SignBaozhuang(stub, args)
+	case "querySellSongrong":
+		return api.QuerySellSongrong(stub, args)
+	case "queryBuySongrong":
+		return api.QueryBuySongrong(stub, args)
+	case "querySignSongrong":
+		return api.QueryignSongrong(stub, args)
+	case "querySignBaozhuang":
+		return api.QuerySignBaozhuang(stub, args)
+*/
 // 新建松茸售卖信息(采购商)
-func CreateRealEstate(stub shim.ChaincodeStubInterface, args []string) pb.Response {
+func SellSongrong(stub shim.ChaincodeStubInterface, args []string) pb.Response {
+	accountId := args[0] //accountId用于验证是否为采购商
+	if accountId == ""  {
+		return shim.Error("参数存在空值")
+	}
+	//判断是否采购商操作
+	resultsAccount, err := utils.GetStateByPartialCompositeKeys(stub, model.AccountKey, []string{accountId})
+	if err != nil || len(resultsAccount) != 1 {
+		return shim.Error(fmt.Sprintf("操作人权限验证失败%s", err))
+	}
+	var account model.Account
+	if err = json.Unmarshal(resultsAccount[0], &account); err != nil {
+		return shim.Error(fmt.Sprintf("查询操作人信息-反序列化出错: %s", err))
+	}
+	if account.UserName != "采购商" {
+		return shim.Error(fmt.Sprintf("操作人权限不足%s", err))
+	}
+	songrong1 := &model.RealEstate{
+		RealEstateID: stub.GetTxID()[:16],
+		Proprietor:   proprietor,
+		Encumbrance:  false,
+		TotalArea:    formattedTotalArea,
+		LivingSpace:  formattedLivingSpace,
+	}
+	// 写入账本
+	if err := utils.WriteLedger(songrong1, stub, model.RealEstateKey, []string{songrong1.Proprietor, songrong1.RealEstateID}); err != nil {
+		return shim.Error(fmt.Sprintf("%s", err))
+	}
+	//将成功创建的信息返回
+	songrong1Byte, err := json.Marshal(songrong1)
+	if err != nil {
+		return shim.Error(fmt.Sprintf("序列化成功创建的信息出错: %s", err))
+	}
+	// 成功返回
+	return shim.Success(songrong1Byte)
+}
 
+/*
 // CreateRealEstate 新建房地产(管理员)
 func CreateRealEstate(stub shim.ChaincodeStubInterface, args []string) pb.Response {
 	// 验证参数
@@ -80,6 +133,7 @@ func CreateRealEstate(stub shim.ChaincodeStubInterface, args []string) pb.Respon
 	// 成功返回
 	return shim.Success(realEstateByte)
 }
+*/
 
 // QueryRealEstateList 查询房地产(可查询所有，也可根据所有人查询名下房产)
 func QueryRealEstateList(stub shim.ChaincodeStubInterface, args []string) pb.Response {
