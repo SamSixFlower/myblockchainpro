@@ -30,17 +30,46 @@ case "sellSongrong":
 		return api.QuerySignBaozhuang(stub, args)
   type SongRong1 struct {
 	SongRongID string  `json:"songrongeId"` //本批松茸ID
-	Seller   string  `json:"sellerID"`   //采购商ID
+	SellerID   string  `json:"sellerID"`   //采购商ID
 	Place  string    `json:"place"`  //松茸产地
 	Amount   float64 `json:"amount"`    //售卖总量
 	Time  string `json:"time"`  //售卖时间
+ 	State bool `json:"state"`  //是否被购买
 }
 */
 // 新建松茸售卖信息(采购商)
 func SellSongrong(stub shim.ChaincodeStubInterface, args []string) pb.Response {
 	accountId := args[0] //accountId用于验证是否为采购商
+	place := args[1]
+	amount := args[2]
+	time := args[3]
 	if accountId == ""  {
 		return shim.Error("参数存在空值")
+	}
+	// 参数数据格式转换
+	var formattedSeller float64
+	if val, err := strconv.ParseFloat(accountId, 64); err != nil {
+		return shim.Error(fmt.Sprintf("参数格式转换出错: %s", err))
+	} else {
+		formattedSeller = val
+	}
+	var formattedPlace float64
+	if val, err := strconv.ParseFloat(place, 64); err != nil {
+		return shim.Error(fmt.Sprintf("参数格式转换出错: %s", err))
+	} else {
+		formattedPlace = val
+	}
+	var formattedAmount float64
+	if val, err := strconv.ParseFloat(amount, 64); err != nil {
+		return shim.Error(fmt.Sprintf("参数格式转换出错: %s", err))
+	} else {
+		formattedLAmount = val
+	}
+	var formattedTime float64
+	if val, err := strconv.ParseFloat(time, 64); err != nil {
+		return shim.Error(fmt.Sprintf("参数格式转换出错: %s", err))
+	} else {
+		formattedLTime = val
 	}
 	//判断是否采购商操作
 	resultsAccount, err := utils.GetStateByPartialCompositeKeys(stub, model.AccountKey, []string{accountId})
@@ -54,15 +83,16 @@ func SellSongrong(stub shim.ChaincodeStubInterface, args []string) pb.Response {
 	if account.UserName != "采购商" {
 		return shim.Error(fmt.Sprintf("操作人权限不足%s", err))
 	}
-	songrong1 := &model.RealEstate{
-		RealEstateID: stub.GetTxID()[:16],
-		Proprietor:   proprietor,
-		Encumbrance:  false,
-		TotalArea:    formattedTotalArea,
-		LivingSpace:  formattedLivingSpace,
+	songrong1 := &model.SongRong1{
+		SongRongID: stub.GetTxID()[:16],
+		SellerID:   formattedSeller,
+		Place:    formattedPlace,
+		Amount:  formattedAmount,
+		Time:  formattedTime,
+		State:  false,
 	}
 	// 写入账本
-	if err := utils.WriteLedger(songrong1, stub, model.RealEstateKey, []string{songrong1.Proprietor, songrong1.RealEstateID}); err != nil {
+	if err := utils.WriteLedger(songrong1, stub, model.RealEstateKey, []string{songrong1.SongRongID, songrong1.SellerID}); err != nil {
 		return shim.Error(fmt.Sprintf("%s", err))
 	}
 	//将成功创建的信息返回
