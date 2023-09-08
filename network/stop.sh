@@ -2,7 +2,7 @@
 
 # 清除链码容器
 function clearContainers() {
-  CONTAINER_IDS=$(docker ps -a | awk '($2 ~ /dev-peer.*fabric-realty.*/) {print $1}')
+  CONTAINER_IDS=$(docker ps -a | awk '($2 ~ /dev-peer.*fabric-suyuan.*/) {print $1}')
   if [ -z "$CONTAINER_IDS" -o "$CONTAINER_IDS" == " " ]; then
     echo "---- No containers available for deletion ----"
   else
@@ -12,7 +12,7 @@ function clearContainers() {
 
 # 清除链码镜像
 function removeUnwantedImages() {
-  DOCKER_IMAGE_IDS=$(docker images | awk '($1 ~ /dev-peer.*fabric-realty.*/) {print $3}')
+  DOCKER_IMAGE_IDS=$(docker images | awk '($1 ~ /dev-peer.*fabric-suyuan.*/) {print $3}')
   if [ -z "$DOCKER_IMAGE_IDS" -o "$DOCKER_IMAGE_IDS" == " " ]; then
     echo "---- No images available for deletion ----"
   else
