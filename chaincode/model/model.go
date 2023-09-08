@@ -111,3 +111,14 @@ const (
 	DonatingKey        = "donating-key"
 	DonatingGranteeKey = "donating-grantee-key"
 )
+*/
+
+const (
+	AccountKey         = "account-key"
+	SellsongrongKey      = "sell-songrong-key"
+	
+	SellingKey         = "selling-key"
+	SellingBuyKey      = "selling-buy-key"
+	DonatingKey        = "donating-key"
+	DonatingGranteeKey = "donating-grantee-key"
+)
