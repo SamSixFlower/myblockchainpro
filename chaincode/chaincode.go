@@ -45,6 +45,8 @@ func (t *BlockChainSuYuan) Invoke(stub shim.ChaincodeStubInterface) pb.Response 
 		return api.Hello(stub, args)
 	case "queryAccountList":
 		return api.QueryAccountList(stub, args)
+
+/*
 	case "createRealEstate":
 		return api.CreateRealEstate(stub, args)
 	case "queryRealEstateList":
@@ -67,6 +69,24 @@ func (t *BlockChainSuYuan) Invoke(stub shim.ChaincodeStubInterface) pb.Response 
 		return api.QueryDonatingListByGrantee(stub, args)
 	case "updateDonating":
 		return api.UpdateDonating(stub, args)
+*/
+		
+	case "sellSongrong":
+		return api.SellSongrong(stub, args)
+	case "buySongrong":
+		return api.BuySongrong(stub, args)
+	case "signSongrong":
+		return api.SignSongrong(stub, args)
+	case "signBaozhuang":
+		return api.SignBaozhuang(stub, args)
+	case "querySellSongrong":
+		return api.QuerySellSongrong(stub, args)
+	case "queryBuySongrong":
+		return api.QueryBuySongrong(stub, args)
+	case "querySignSongrong":
+		return api.QueryignSongrong(stub, args)
+	case "querySignBaozhuang":
+		return api.QuerySignBaozhuang(stub, args)
 	default:
 		return shim.Error(fmt.Sprintf("没有该功能: %s", funcName))
 	}
