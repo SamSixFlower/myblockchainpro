@@ -8,10 +8,11 @@ type Account struct {
 
 type SongRong1 struct {
 	SongRongID string  `json:"songrongeId"` //本批松茸ID
-	Seller   string  `json:"sellerID"`   //采购商ID
+	SellerID   string  `json:"sellerID"`   //采购商ID
 	Place  string    `json:"place"`  //松茸产地
 	Amount   float64 `json:"amount"`    //售卖总量
 	Time  string `json:"time"`  //售卖时间
+	State bool `json:"state"`  //是否被购买
 }
 
 type SongRong2 struct {
