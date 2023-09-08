@@ -65,8 +65,8 @@ docker exec cli bash -c "$JDPeer0Cli peer channel update -o orderer.qq.com:7050 
 # -v 版本号
 # -p 链码目录，在 /opt/gopath/src/ 目录下
 echo "十、安装链码"
-docker exec cli bash -c "$TaobaoPeer0Cli peer chaincode install -n fabric-realty -v 1.0.0 -l golang -p chaincode"
-docker exec cli bash -c "$JDPeer0Cli peer chaincode install -n fabric-realty -v 1.0.0 -l golang -p chaincode"
+docker exec cli bash -c "$TaobaoPeer0Cli peer chaincode install -n fabric-suyuan -v 1.0.0 -l golang -p chaincode"
+docker exec cli bash -c "$JDPeer0Cli peer chaincode install -n fabric-suyuan -v 1.0.0 -l golang -p chaincode"
 
 # 只需要其中一个节点实例化
 # -n 对应上一步安装链码的名字
@@ -74,16 +74,16 @@ docker exec cli bash -c "$JDPeer0Cli peer chaincode install -n fabric-realty -v 
 # -C 是通道，在fabric的世界，一个通道就是一条不同的链
 # -c 为传参，传入init参数
 echo "十一、实例化链码"
-docker exec cli bash -c "$TaobaoPeer0Cli peer chaincode instantiate -o orderer.qq.com:7050 -C appchannel -n fabric-realty -l golang -v 1.0.0 -c '{\"Args\":[\"init\"]}' -P \"AND ('TaobaoMSP.member','JDMSP.member')\""
+docker exec cli bash -c "$TaobaoPeer0Cli peer chaincode instantiate -o orderer.qq.com:7050 -C appchannel -n fabric-suyuan -l golang -v 1.0.0 -c '{\"Args\":[\"init\"]}' -P \"AND ('TaobaoMSP.member','JDMSP.member')\""
 
 echo "正在等待链码实例化完成，等待5秒"
 sleep 5
 
 # 进行链码交互，验证链码是否正确安装及区块链网络能否正常工作
 echo "十二、验证链码"
-docker exec cli bash -c "$TaobaoPeer0Cli peer chaincode invoke -C appchannel -n fabric-realty -c '{\"Args\":[\"hello\"]}'"
+docker exec cli bash -c "$TaobaoPeer0Cli peer chaincode invoke -C appchannel -n fabric-suyuan -c '{\"Args\":[\"hello\"]}'"
 
-if docker exec cli bash -c "$JDPeer0Cli peer chaincode invoke -C appchannel -n fabric-realty -c '{\"Args\":[\"hello\"]}'" 2>&1 | grep "Chaincode invoke successful"; then
+if docker exec cli bash -c "$JDPeer0Cli peer chaincode invoke -C appchannel -n fabric-suyuan -c '{\"Args\":[\"hello\"]}'" 2>&1 | grep "Chaincode invoke successful"; then
   echo "【恭喜您！】 network 部署成功，后续如需暂时停止运行，可以执行 docker-compose stop 命令（不会丢失数据）。"
   exit 0
 fi
