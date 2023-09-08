@@ -28,6 +28,13 @@ case "sellSongrong":
 		return api.QueryignSongrong(stub, args)
 	case "querySignBaozhuang":
 		return api.QuerySignBaozhuang(stub, args)
+  type SongRong1 struct {
+	SongRongID string  `json:"songrongeId"` //本批松茸ID
+	Seller   string  `json:"sellerID"`   //采购商ID
+	Place  string    `json:"place"`  //松茸产地
+	Amount   float64 `json:"amount"`    //售卖总量
+	Time  string `json:"time"`  //售卖时间
+}
 */
 // 新建松茸售卖信息(采购商)
 func SellSongrong(stub shim.ChaincodeStubInterface, args []string) pb.Response {
