@@ -92,7 +92,7 @@ func SellSongrong(stub shim.ChaincodeStubInterface, args []string) pb.Response {
 		State:  false,
 	}
 	// 写入账本
-	if err := utils.WriteLedger(songrong1, stub, model.RealEstateKey, []string{songrong1.SongRongID, songrong1.SellerID}); err != nil {
+	if err := utils.WriteLedger(songrong1, stub, model.SellsongrongKey, []string{songrong1.SongRongID, songrong1.SellerID}); err != nil {
 		return shim.Error(fmt.Sprintf("%s", err))
 	}
 	//将成功创建的信息返回
