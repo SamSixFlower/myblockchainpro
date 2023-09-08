@@ -4,9 +4,33 @@ package model
 type Account struct {
 	AccountId string  `json:"accountId"` //账号ID
 	UserName  string  `json:"userName"`  //账号名
-	Balance   float64 `json:"balance"`   //余额
 }
 
+type SongRong1 struct {
+	SongRongID string  `json:"songrongeId"` //本批松茸ID
+	Seller   string  `json:"sellerID"`   //采购商ID
+	Place  string    `json:"place"`  //松茸产地
+	Amount   float64 `json:"amount"`    //售卖总量
+	Time  string `json:"time"`  //售卖时间
+}
+
+type SongRong2 struct {
+	SongRong2ID string  `json:"songrongeId"` //分装后松茸ID
+	Umbrella   string  `json:"umbrella"`   //开伞情况
+	Place  string    `json:"place"`  //松茸产地
+	Size   string `json:"size"`    //松茸大小
+	Storage string `json:"storage"`    //库存时状态
+	Time1  string `json:"time"`  //入库时间
+	Time2  string `json:"time"`  //出库时间
+}
+
+type BaoZhuang struct {
+	ProductID string  `json:"productId"` //产品号ID
+	SongRong2ID string  `json:"songrongeId"` //产品装的松茸的ID
+	Time  string `json:"time"`  //包装时间
+}
+
+/*
 // RealEstate 房地产作为担保出售、捐赠或质押时Encumbrance为true，默认状态false。
 // 仅当Encumbrance为false时，才可发起出售、捐赠或质押
 // Proprietor和RealEstateID一起作为复合键,保证可以通过Proprietor查询到名下所有的房产信息
@@ -17,7 +41,6 @@ type RealEstate struct {
 	TotalArea    float64 `json:"totalArea"`    //总面积
 	LivingSpace  float64 `json:"livingSpace"`  //生活空间
 }
-
 // Selling 销售要约
 // 需要确定ObjectOfSale是否属于Seller
 // 买家初始为空
