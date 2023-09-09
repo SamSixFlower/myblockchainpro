@@ -28,7 +28,7 @@ type SongRong2 struct {
 	Time2  string `json:"time"`  //出库时间
 }
 
-type BaoZhuang struct {
+type SongRong3 struct {
 	ProductID string  `json:"productId"` //产品号ID
 	SongRong2ID string  `json:"songrongeId"` //产品装的松茸的ID
 	Time  string `json:"time"`  //包装时间
