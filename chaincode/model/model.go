@@ -12,7 +12,7 @@ type SongRong1 struct {
 	Place  string    `json:"place"`  //松茸产地
 	Amount   float64 `json:"amount"`    //售卖总量
 	Time  string `json:"time"`  //售卖时间
-	State bool `json:"state"`  //是否被购买
+	SellingStatus string  `json:"sellingStatus"` //销售状态
 }
 
 type SongRong2 struct {
