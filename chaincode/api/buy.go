@@ -10,7 +10,7 @@ func BuySongrong(stub shim.ChaincodeStubInterface, args []string) pb.Response {
 	if sellerID == buyerID {
 		return shim.Error("买家和卖家不能同一人")
 	}
-	//取出
+	//取出要购买的松茸批次
   	resultssongrong1, err := utils.GetStateByPartialCompositeKeys2(stub, model.SellsongrongKey, []string{songrongID, sellerID})
 	var songrong1 model.SongRong1
 	if err = json.Unmarshal(resultssongrong1[0], &songrong1); err != nil {
@@ -29,37 +29,28 @@ func BuySongrong(stub shim.ChaincodeStubInterface, args []string) pb.Response {
 	if err = json.Unmarshal(resultsAccount[0], &buyerAccount); err != nil {
 		return shim.Error(fmt.Sprintf("查询buyer买家信息-反序列化出错: %s", err))
 	}
-	if buyerAccount.UserName == "管理员" {
-		return shim.Error(fmt.Sprintf("管理员不能购买%s", err))
-	}
-	//判断余额是否充足
-	if buyerAccount.Balance < selling.Price {
-		return shim.Error(fmt.Sprintf("房产售价为%f,您的当前余额为%f,购买失败", selling.Price, buyerAccount.Balance))
+	if buyerAccount.UserName == "采购商" {
+		return shim.Error(fmt.Sprintf("采购商不能购买%s", err))
 	}
 	//将buyer写入交易selling,修改交易状态
-	selling.Buyer = buyer
-	selling.SellingStatus = model.SellingStatusConstant()["delivery"]
-	if err := utils.WriteLedger(selling, stub, model.SellingKey, []string{selling.Seller, selling.ObjectOfSale}); err != nil {
-		return shim.Error(fmt.Sprintf("将buyer写入交易selling,修改交易状态 失败%s", err))
+	songrong1.BuyerID = buyerID
+	songrong1.SellingStatus = "delivery"
+	if err := utils.WriteLedger(songrong1, stub, model.SellsongrongKey, []string{songrongID, sellerID}); err != nil {
+		return shim.Error(fmt.Sprintf("将buyer写入交易songrong1,修改交易状态 失败%s", err))
 	}
 	createTime, _ := stub.GetTxTimestamp()
 	//将本次购买交易写入账本,可供买家查询
 	sellingBuy := &model.SellingBuy{
-		Buyer:      buyer,
+		BuyerID:      buyerID,
 		CreateTime: time.Unix(int64(createTime.GetSeconds()), int64(createTime.GetNanos())).Local().Format("2006-01-02 15:04:05"),
-		Selling:    selling,
+		Selling:    songrong1,
 	}
-	if err := utils.WriteLedger(sellingBuy, stub, model.SellingBuyKey, []string{sellingBuy.Buyer, sellingBuy.CreateTime}); err != nil {
+	if err := utils.WriteLedger(sellingBuy, stub, model.SellingBuyKey, []string{sellingBuy.BuyerID, sellingBuy.CreateTime}); err != nil {
 		return shim.Error(fmt.Sprintf("将本次购买交易写入账本失败%s", err))
 	}
 	sellingBuyByte, err := json.Marshal(sellingBuy)
 	if err != nil {
 		return shim.Error(fmt.Sprintf("序列化成功创建的信息出错: %s", err))
-	}
-	//购买成功，扣取余额，更新账本余额，注意，此时需要卖家确认收款，款项才会转入卖家账户，此处先扣除买家的余额
-	buyerAccount.Balance -= selling.Price
-	if err := utils.WriteLedger(buyerAccount, stub, model.AccountKey, []string{buyerAccount.AccountId}); err != nil {
-		return shim.Error(fmt.Sprintf("扣取买家余额失败%s", err))
 	}
 	// 成功返回
 	return shim.Success(sellingBuyByte)
