@@ -1,3 +1,17 @@
+package api
+
+import (
+	"chaincode/model"
+	"chaincode/pkg/utils"
+	"encoding/json"
+	"fmt"
+	"strconv"
+	"time"
+
+	"github.com/hyperledger/fabric/core/chaincode/shim"
+	pb "github.com/hyperledger/fabric/protos/peer"
+)
+
 //厂家买松茸
 func BuySongrong(stub shim.ChaincodeStubInterface, args []string) pb.Response {
 	//传入松茸id，采购商id，购买者id
