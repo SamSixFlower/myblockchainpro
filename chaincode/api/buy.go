@@ -10,15 +10,14 @@ func BuySongrong(stub shim.ChaincodeStubInterface, args []string) pb.Response {
 	if sellerID == buyerID {
 		return shim.Error("买家和卖家不能同一人")
 	}
-
+	//取出
   	resultssongrong1, err := utils.GetStateByPartialCompositeKeys2(stub, model.SellsongrongKey, []string{songrongID, sellerID})
 	var songrong1 model.SongRong1
-
-	if err = json.Unmarshal(resultsSelling[0], &selling); err != nil {
-		return shim.Error(fmt.Sprintf("CreateSellingBuy-反序列化出错: %s", err))
+	if err = json.Unmarshal(resultssongrong1[0], &songrong1); err != nil {
+		return shim.Error(fmt.Sprintf("BuySongrong-反序列化出错: %s", err))
 	}
-	//判断selling的状态是否为销售中
-	if selling.SellingStatus != model.SellingStatusConstant()["saleStart"] {
+	//判断songrong1的状态是否为销售中
+	if songrong1.SellingStatus != "saleStart" {
 		return shim.Error("此交易不属于销售中状态，已经无法购买")
 	}
 	//根据buyer获取买家信息
