@@ -68,6 +68,7 @@ func SellSongrong(stub shim.ChaincodeStubInterface, args []string) pb.Response {
 	if account.UserName != "采购商" {
 		return shim.Error(fmt.Sprintf("操作人权限不足%s", err))
 	}
+	createTime, _ := stub.GetTxTimestamp()
 	songrong1 := &model.SongRong1{
 		SongRongID: stub.GetTxID()[:16],
 		SellerID:   accountId,
