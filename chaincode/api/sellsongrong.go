@@ -48,29 +48,11 @@ func SellSongrong(stub shim.ChaincodeStubInterface, args []string) pb.Response {
 		return shim.Error("参数存在空值")
 	}
 	// 参数数据格式转换
-	var formattedSeller float64
-	if val, err := strconv.ParseFloat(accountId, 64); err != nil {
-		return shim.Error(fmt.Sprintf("参数格式转换出错: %s", err))
-	} else {
-		formattedSeller = val
-	}
-	var formattedPlace float64
-	if val, err := strconv.ParseFloat(place, 64); err != nil {
-		return shim.Error(fmt.Sprintf("参数格式转换出错: %s", err))
-	} else {
-		formattedPlace = val
-	}
 	var formattedAmount float64
 	if val, err := strconv.ParseFloat(amount, 64); err != nil {
 		return shim.Error(fmt.Sprintf("参数格式转换出错: %s", err))
 	} else {
 		formattedLAmount = val
-	}
-	var formattedTime float64
-	if val, err := strconv.ParseFloat(time, 64); err != nil {
-		return shim.Error(fmt.Sprintf("参数格式转换出错: %s", err))
-	} else {
-		formattedLTime = val
 	}
 	//判断是否采购商操作
 	resultsAccount, err := utils.GetStateByPartialCompositeKeys(stub, model.AccountKey, []string{accountId})
@@ -86,10 +68,10 @@ func SellSongrong(stub shim.ChaincodeStubInterface, args []string) pb.Response {
 	}
 	songrong1 := &model.SongRong1{
 		SongRongID: stub.GetTxID()[:16],
-		SellerID:   formattedSeller,
-		Place:    formattedPlace,
+		SellerID:   accountId,
+		Place:    place,
 		Amount:  formattedAmount,
-		Time:  formattedTime,
+		Time:  time.Unix(int64(createTime.GetSeconds()), int64(createTime.GetNanos())).Local().Format("2006-01-02 15:04:05"),,
 		State:  false,
 	}
 	// 写入账本
