@@ -13,6 +13,7 @@ type SongRong1 struct {
 	Amount   float64 `json:"amount"`    //售卖总量
 	Time  string `json:"time"`  //售卖时间
 	SellingStatus string  `json:"sellingStatus"` //销售状态
+	BuyerID string  `json:"buyerID"` //购买者
 }
 
 type SongRong2 struct {
