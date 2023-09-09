@@ -62,10 +62,10 @@ func PackingSongrong(stub shim.ChaincodeStubInterface, args []string) pb.Respons
 	return shim.Success(songrong3Byte)
 }
 
-// QueryPackingSongrong 查询售卖的松茸(可以供采购商和厂家查询，采购商只能传入自己的ID，厂家可以选择采购商ID进行传入)
+// QueryPackingSongrong 查询包装(传入类型和厂家ID)
 func QueryPackingSongrong(stub shim.ChaincodeStubInterface, args []string) pb.Response {
 	var songrong3List []model.SongRong3
-	results, err := utils.GetStateByPartialCompositeKeys2(stub, model.Sellsongrong3Key, args)
+	results, err := utils.GetStateByPartialCompositeKeys(stub, model.Sellsongrong3Key, args)
 	if err != nil {
 		return shim.Error(fmt.Sprintf("%s", err))
 	}
