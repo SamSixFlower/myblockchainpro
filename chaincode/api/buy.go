@@ -11,8 +11,9 @@ func BuySongrong(stub shim.ChaincodeStubInterface, args []string) pb.Response {
 		return shim.Error("买家和卖家不能同一人")
 	}
 
-  
-	var selling model.Selling
+  	resultssongrong1, err := utils.GetStateByPartialCompositeKeys2(stub, model.SellsongrongKey, []string{songrongID, sellerID})
+	var songrong1 model.SongRong1
+
 	if err = json.Unmarshal(resultsSelling[0], &selling); err != nil {
 		return shim.Error(fmt.Sprintf("CreateSellingBuy-反序列化出错: %s", err))
 	}
