@@ -174,6 +174,30 @@ func CreateRealEstate(stub shim.ChaincodeStubInterface, args []string) pb.Respon
 */
 
 // QueryRealEstateList 查询房地产(可查询所有，也可根据所有人查询名下房产)
+func QuerySellSongrong(stub shim.ChaincodeStubInterface, args []string) pb.Response {
+	var songrong1List []model.SongRong1
+	results, err := utils.GetStateByPartialCompositeKeys2(stub, model.SellsongrongKey, args)
+	if err != nil {
+		return shim.Error(fmt.Sprintf("%s", err))
+	}
+	for _, v := range results {
+		if v != nil {
+			var songrong1 model.SongRong1
+			err := json.Unmarshal(v, &songrong1)
+			if err != nil {
+				return shim.Error(fmt.Sprintf("QuerySellSongrong-反序列化出错: %s", err))
+			}
+			realEstateList = append(songrong1List, songrong1)
+		}
+	}
+	songrong1ListByte, err := json.Marshal(songrong1List)
+	if err != nil {
+		return shim.Error(fmt.Sprintf("QuerySellSongrong-序列化出错: %s", err))
+	}
+	return shim.Success(songrong1ListByte)
+}
+/*
+// QueryRealEstateList 查询房地产(可查询所有，也可根据所有人查询名下房产)
 func QueryRealEstateList(stub shim.ChaincodeStubInterface, args []string) pb.Response {
 	var realEstateList []model.RealEstate
 	results, err := utils.GetStateByPartialCompositeKeys2(stub, model.RealEstateKey, args)
@@ -196,3 +220,4 @@ func QueryRealEstateList(stub shim.ChaincodeStubInterface, args []string) pb.Res
 	}
 	return shim.Success(realEstateListByte)
 }
+*/
