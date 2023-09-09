@@ -80,7 +80,7 @@ func UploadSongrong(stub shim.ChaincodeStubInterface, args []string) pb.Response
 		Time2: time2,
 	}
 	// 写入账本
-	if err := utils.WriteLedger(songrong2, stub, model.SellsongrongKey, []string{songrong2.SongRong2ID, songrong2.FactoryID}); err != nil {
+	if err := utils.WriteLedger(songrong2, stub, model.Sellsongrong2Key, []string{songrong2.SongRong2ID, songrong2.FactoryID}); err != nil {
 		return shim.Error(fmt.Sprintf("%s", err))
 	}
 	//将成功创建的信息返回
@@ -92,7 +92,7 @@ func UploadSongrong(stub shim.ChaincodeStubInterface, args []string) pb.Response
 	return shim.Success(songrong2Byte)
 }
 
-// QuerySellSongrong 查询售卖的松茸(可以供采购商和厂家查询，采购商只能传入自己的ID，厂家可以选择采购商ID进行传入)
+// QueryUploadSongrong 查询售卖的松茸(可以供采购商和厂家查询，采购商只能传入自己的ID，厂家可以选择采购商ID进行传入)
 func QueryUploadSongrong(stub shim.ChaincodeStubInterface, args []string) pb.Response {
 	var songrong2List []model.SongRong2
 	results, err := utils.GetStateByPartialCompositeKeys2(stub, model.Sellsongrong2Key, args)
@@ -104,14 +104,14 @@ func QueryUploadSongrong(stub shim.ChaincodeStubInterface, args []string) pb.Res
 			var songrong2 model.SongRong2
 			err := json.Unmarshal(v, &songrong2)
 			if err != nil {
-				return shim.Error(fmt.Sprintf("QuerySellSongrong-反序列化出错: %s", err))
+				return shim.Error(fmt.Sprintf("QueryUploadSongrong-反序列化出错: %s", err))
 			}
 			songrong2List = append(songrong2List, songrong2)
 		}
 	}
 	songrong2ListByte, err := json.Marshal(songrong2List)
 	if err != nil {
-		return shim.Error(fmt.Sprintf("QuerySellSongrong-序列化出错: %s", err))
+		return shim.Error(fmt.Sprintf("QueryUploadSongrong-序列化出错: %s", err))
 	}
 	return shim.Success(songrong2ListByte)
 }
