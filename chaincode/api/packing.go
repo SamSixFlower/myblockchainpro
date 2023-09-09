@@ -65,7 +65,7 @@ func PackingSongrong(stub shim.ChaincodeStubInterface, args []string) pb.Respons
 // QueryPackingSongrong 查询包装(传入类型和厂家ID)
 func QueryPackingSongrong(stub shim.ChaincodeStubInterface, args []string) pb.Response {
 	var songrong3List []model.SongRong3
-	results, err := utils.GetStateByPartialCompositeKeys(stub, model.Sellsongrong3Key, args)
+	results, err := utils.GetStateByPartialCompositeKeys2(stub, model.Sellsongrong3Key, args)
 	if err != nil {
 		return shim.Error(fmt.Sprintf("%s", err))
 	}
