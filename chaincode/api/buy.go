@@ -89,9 +89,15 @@ func ConfirmSongrong(stub shim.ChaincodeStubInterface, args []string) pb.Respons
 	if songrongID == "" || sellerID == "" {
 		return shim.Error("参数存在空值")
 	}
-	//此部分为判断sellerID是否在采购商里
-	
-	
+	//判断是否采购商操作
+	resultsAccount, err := utils.GetStateByPartialCompositeKeys(stub, model.AccountKey, []string{sellerID})
+	if err != nil || len(resultsAccount) != 1 {
+		return shim.Error(fmt.Sprintf("操作人权限验证失败%s", err))
+	}
+	var account model.Account
+	if err = json.Unmarshal(resultsAccount[0], &account); err != nil {
+		return shim.Error(fmt.Sprintf("查询操作人信息-反序列化出错: %s", err))
+	}
 	//根据songrongID和sellerID获取想要购买的房产信息，确认存在该房产
 	resultssongrong1, err := utils.GetStateByPartialCompositeKeys2(stub, model.SellsongrongKey, []string{songrongID, sellerID})
 	if err != nil || len(resultssongrong1) != 1 {
