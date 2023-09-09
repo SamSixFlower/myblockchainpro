@@ -46,7 +46,7 @@ func PackingSongrong(stub shim.ChaincodeStubInterface, args []string) pb.Respons
 	songrong3 := &model.SongRong3{
 		ProductID: stub.GetTxID()[:16],
 		FactoryID:   accountId,
-		SongRong2ID:  songrong2ID
+		SongRong2ID:  songrong2ID,
 		Time:  time.Unix(int64(createTime.GetSeconds()), int64(createTime.GetNanos())).Local().Format("2006-01-02 15:04:05"),
 	}
 	// 写入账本
