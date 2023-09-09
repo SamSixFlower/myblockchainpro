@@ -45,7 +45,6 @@ func SellSongrong(stub shim.ChaincodeStubInterface, args []string) pb.Response {
 	accountId := args[0] //accountId用于验证是否为采购商
 	place := args[1]
 	amount := args[2]
-	time := args[3]
 	if accountId == ""  {
 		return shim.Error("参数存在空值")
 	}
