@@ -48,10 +48,10 @@ func UploadSongrong(stub shim.ChaincodeStubInterface, args []string) pb.Response
 	accountId := args[0] //accountId用于验证是否为厂家
 	Umbrella := args[1]
 	songrongID := args[2]
-  size := args[3]
-  storage := args[4]
-  time1 := args[5]
-  time2 := args[6]
+  	size := args[3]
+  	storage := args[4]
+  	time1 := args[5]
+  	time2 := args[6]
 	if accountId == ""  {
 		return shim.Error("参数存在空值")
 	}
@@ -64,7 +64,7 @@ func UploadSongrong(stub shim.ChaincodeStubInterface, args []string) pb.Response
 	if err = json.Unmarshal(resultsAccount[0], &account); err != nil {
 		return shim.Error(fmt.Sprintf("查询操作人信息-反序列化出错: %s", err))
 	}
-	if account.UserName != "厂家" {
+	if account.UserName != "松茸厂家" {
 		return shim.Error(fmt.Sprintf("操作人权限不足%s", err))
 	}
 	createTime, _ := stub.GetTxTimestamp()
@@ -73,10 +73,10 @@ func UploadSongrong(stub shim.ChaincodeStubInterface, args []string) pb.Response
 		FactoryID:   accountId,
 		Umbrella:    umbrella,
 		SongRongID:  songrongID,
-    Size:  size,
-    Storage:  storage,
+    		Size:  size,
+    		Storage:  storage,
 		Time:  time.Unix(int64(createTime.GetSeconds()), int64(createTime.GetNanos())).Local().Format("2006-01-02 15:04:05"),
-	  Time1: time1,
+	  	Time1: time1,
 		Time2: time2,
 	}
 	// 写入账本
