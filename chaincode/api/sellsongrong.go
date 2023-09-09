@@ -41,6 +41,7 @@ case "sellSongrong":
 */
 // 新建松茸售卖信息(采购商)
 func SellSongrong(stub shim.ChaincodeStubInterface, args []string) pb.Response {
+	//传入采购商id，产地，售卖数量，售卖时间
 	accountId := args[0] //accountId用于验证是否为采购商
 	place := args[1]
 	amount := args[2]
