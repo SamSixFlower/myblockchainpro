@@ -72,7 +72,7 @@ func SellSongrong(stub shim.ChaincodeStubInterface, args []string) pb.Response {
 		Place:    place,
 		Amount:  formattedAmount,
 		Time:  time.Unix(int64(createTime.GetSeconds()), int64(createTime.GetNanos())).Local().Format("2006-01-02 15:04:05"),,
-		State:  false,
+		SellingStatus: model.SellingStatusConstant()["saleStart"],
 	}
 	// 写入账本
 	if err := utils.WriteLedger(songrong1, stub, model.SellsongrongKey, []string{songrong1.SongRongID, songrong1.SellerID}); err != nil {
