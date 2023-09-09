@@ -20,7 +20,7 @@ type SongRong2 struct {
 	SongRong2ID string  `json:"songrong2Id"` //分装后松茸ID
 	FactoryID string  `json:"factoryId"` //厂家ID
 	Umbrella   string  `json:"umbrella"`   //开伞情况
-	Place  string    `json:"place"`  //松茸产地
+	SongRongID string  `json:"songrongId"` //来自哪批次的松茸ID
 	Size   string `json:"size"`    //松茸大小
 	Storage string `json:"storage"`    //库存时状态
 	Time  string `json:"time"`  //上链时间
