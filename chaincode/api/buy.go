@@ -39,7 +39,7 @@ func BuySongrong(stub shim.ChaincodeStubInterface, args []string) pb.Response {
 	songrong1.BuyerID = buyerID
 	songrong1.SellingStatus = "delivery"
 	if err := utils.WriteLedger(songrong1, stub, model.SellsongrongKey, []string{songrongID, sellerID}); err != nil {
-		return shim.Error(fmt.Sprintf("将buyer写入交易songrong1,修改交易状态 失败%s", err))
+		return shim.Error(fmt.Sprintf("将buyer写入交易songrong1,修改交易状态为待确认 失败%s", err))
 	}
 	createTime, _ := stub.GetTxTimestamp()
 	//将本次购买交易写入账本,可供买家查询
@@ -81,4 +81,44 @@ func QuerySellingList(stub shim.ChaincodeStubInterface, args []string) pb.Respon
 		return shim.Error(fmt.Sprintf("QuerySellingList-序列化出错: %s", err))
 	}
 	return shim.Success(sellingListByte)
+}
+// ConfirmSongrong 采购商确认，参数传入采购商ID和售卖的松茸ID
+func ConfirmSongrong(stub shim.ChaincodeStubInterface, args []string) pb.Response {
+	songrongID := args[0]
+	sellerID := args[1]
+	if songrongID == "" || sellerID == "" {
+		return shim.Error("参数存在空值")
+	}
+	//此部分为判断sellerID是否在采购商里
+	
+	
+	//根据songrongID和sellerID获取想要购买的房产信息，确认存在该房产
+	resultssongrong1, err := utils.GetStateByPartialCompositeKeys2(stub, model.SellsongrongKey, []string{songrongID, sellerID})
+	if err != nil || len(resultssongrong1) != 1 {
+		return shim.Error(fmt.Sprintf("根据%s和%s获取想要购买的松茸信息失败: %s", osongrongID, sellerID, err))
+	}
+	var songrong1 model.SongRong1
+	if err = json.Unmarshal(resultssongrong1[0], &songrong1); err != nil {
+		return shim.Error(fmt.Sprintf("ConfirmSongrong-反序列化出错: %s", err))
+	}
+	songrong1.SellingStatus = "confirm"
+	if err := utils.WriteLedger(songrong1, stub, model.SellsongrongKey, []string{songrongID, sellerID}); err != nil {
+		return shim.Error(fmt.Sprintf("将confirm写入交易songrong1,修改交易状态为已确认 失败%s", err))
+	}
+	createTime, _ := stub.GetTxTimestamp()
+	//将本次购买交易写入账本,可供买家查询
+	sellingConfirm:= &model.SellingConfirm{
+		BuyerID:      buyerID,
+		CreateTime: time.Unix(int64(createTime.GetSeconds()), int64(createTime.GetNanos())).Local().Format("2006-01-02 15:04:05"),
+		Selling:    songrong1,
+	}
+	if err := utils.WriteLedger(sellingConfirm, stub, model.SellingConfirmKey, []string{sellingConfirm.BuyerID, sellingConfirm.CreateTime}); err != nil {
+		return shim.Error(fmt.Sprintf("将本次购买交易写入账本失败%s", err))
+	}
+	sellingConfirmByte, err := json.Marshal(sellingConfirm)
+	if err != nil {
+		return shim.Error(fmt.Sprintf("序列化成功创建的信息出错: %s", err))
+	}
+	// 成功返回
+	return shim.Success(sellingConfirmByte)
 }
