@@ -32,6 +32,14 @@ type BaoZhuang struct {
 	Time  string `json:"time"`  //包装时间
 }
 
+// SellingBuy 买家参与销售
+// 销售对象不能是买家发起的
+// Buyer和CreateTime作为复合键,保证可以通过buyer查询到名下所有参与的销售
+type SellingBuy struct {
+	BuyerID      string  `json:"buyerOD"`      //参与销售人、买家(买家AccountId)
+	CreateTime string  `json:"createTime"` //创建时间
+	Selling    SongRong1 `json:"selling"`    //销售对象
+}
 /*
 // RealEstate 房地产作为担保出售、捐赠或质押时Encumbrance为true，默认状态false。
 // 仅当Encumbrance为false时，才可发起出售、捐赠或质押
@@ -66,15 +74,6 @@ var SellingStatusConstant = func() map[string]string {
 		"delivery":  "交付中", //买家买下并付款,处于等待卖家确认收款状态,如若卖家未能确认收款，买家可以取消并退款
 		"done":      "完成",  //卖家确认接收资金，交易完成
 	}
-}
-
-// SellingBuy 买家参与销售
-// 销售对象不能是买家发起的
-// Buyer和CreateTime作为复合键,保证可以通过buyer查询到名下所有参与的销售
-type SellingBuy struct {
-	Buyer      string  `json:"buyer"`      //参与销售人、买家(买家AccountId)
-	CreateTime string  `json:"createTime"` //创建时间
-	Selling    Selling `json:"selling"`    //销售对象
 }
 
 // Donating 捐赠要约
