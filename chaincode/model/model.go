@@ -43,8 +43,8 @@ type SellingBuy struct {
 var SellingStatusConstant = func() map[string]string {
 	return map[string]string{
 		"saleStart": "销售中", //正在销售状态,等待买家光顾
-		"delivery":  "交付中", //买家买下并付款,处于等待卖家确认收款状态,如若卖家未能确认收款，买家可以取消并退款
-		"confirm":  "已确认",  //卖家确认接收资金，交易完成
+		"delivery":  "交付中", //买家买下并付款,处于等待卖家确认收款状态
+		"confirm":  "已确认",  //卖家确认，交易完成
 	}
 }
 
