@@ -59,29 +59,30 @@ func BuySongrong(stub shim.ChaincodeStubInterface, args []string) pb.Response {
 	return shim.Success(sellingBuyByte)
 }
 
-// QuerySellingList 查询销售(可查询所有，也可根据发起销售人查询)(发起的)(供卖家查询)
-func QuerySellingList(stub shim.ChaincodeStubInterface, args []string) pb.Response {
-	var sellingList []model.Selling
-	results, err := utils.GetStateByPartialCompositeKeys2(stub, model.SellingKey, args)
+// QuerySellingBuyList 查询销售(可查询所有，也可根据发起销售人查询)(发起的)(供卖家查询)
+func QuerySellingBuyList(stub shim.ChaincodeStubInterface, args []string) pb.Response {
+	var sellingBuyList []model.SellingBuy
+	results, err := utils.GetStateByPartialCompositeKeys2(stub, model.SellingBuyKey, args)
 	if err != nil {
 		return shim.Error(fmt.Sprintf("%s", err))
 	}
 	for _, v := range results {
 		if v != nil {
-			var selling model.Selling
-			err := json.Unmarshal(v, &selling)
+			var sellingBuy model.SellingBuy
+			err := json.Unmarshal(v, &sellingBuy)
 			if err != nil {
 				return shim.Error(fmt.Sprintf("QuerySellingList-反序列化出错: %s", err))
 			}
-			sellingList = append(sellingList, selling)
+			sellingBuyList = append(sellingBuyList, sellingBuy)
 		}
 	}
-	sellingListByte, err := json.Marshal(sellingList)
+	sellingBuyListByte, err := json.Marshal(sellingBuyList)
 	if err != nil {
 		return shim.Error(fmt.Sprintf("QuerySellingList-序列化出错: %s", err))
 	}
-	return shim.Success(sellingListByte)
+	return shim.Success(sellingBuyListByte)
 }
+
 // ConfirmSongrong 采购商确认，参数传入采购商ID和售卖的松茸ID
 func ConfirmSongrong(stub shim.ChaincodeStubInterface, args []string) pb.Response {
 	songrongID := args[0]
@@ -127,4 +128,28 @@ func ConfirmSongrong(stub shim.ChaincodeStubInterface, args []string) pb.Respons
 	}
 	// 成功返回
 	return shim.Success(sellingConfirmByte)
+}
+
+// QuerySellingConfirmList 查询销售(可查询所有，也可根据发起销售人查询)(发起的)(供卖家查询)
+func QuerySellingConfirmList(stub shim.ChaincodeStubInterface, args []string) pb.Response {
+	var sellingConfirmList []model.SellingConfirm
+	results, err := utils.GetStateByPartialCompositeKeys2(stub, model.SellingConfirmKey, args)
+	if err != nil {
+		return shim.Error(fmt.Sprintf("%s", err))
+	}
+	for _, v := range results {
+		if v != nil {
+			var sellingConfirm model.SellingConfirm
+			err := json.Unmarshal(v, &sellingConfirm)
+			if err != nil {
+				return shim.Error(fmt.Sprintf("QuerySellingList-反序列化出错: %s", err))
+			}
+			sellingConfirmList = append(sellingConfirmList, sellingConfirm)
+		}
+	}
+	sellingConfirmListByte, err := json.Marshal(sellingConfirmList)
+	if err != nil {
+		return shim.Error(fmt.Sprintf("QuerySellingList-序列化出错: %s", err))
+	}
+	return shim.Success(sellingConfirmListByte)
 }
