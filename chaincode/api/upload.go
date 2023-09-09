@@ -93,25 +93,25 @@ func UploadSongrong(stub shim.ChaincodeStubInterface, args []string) pb.Response
 }
 
 // QuerySellSongrong 查询售卖的松茸(可以供采购商和厂家查询，采购商只能传入自己的ID，厂家可以选择采购商ID进行传入)
-func QuerySellSongrong(stub shim.ChaincodeStubInterface, args []string) pb.Response {
-	var songrong1List []model.SongRong1
-	results, err := utils.GetStateByPartialCompositeKeys2(stub, model.SellsongrongKey, args)
+func QueryUploadSongrong(stub shim.ChaincodeStubInterface, args []string) pb.Response {
+	var songrong2List []model.SongRong2
+	results, err := utils.GetStateByPartialCompositeKeys2(stub, model.Sellsongrong2Key, args)
 	if err != nil {
 		return shim.Error(fmt.Sprintf("%s", err))
 	}
 	for _, v := range results {
 		if v != nil {
-			var songrong1 model.SongRong1
-			err := json.Unmarshal(v, &songrong1)
+			var songrong2 model.SongRong2
+			err := json.Unmarshal(v, &songrong2)
 			if err != nil {
 				return shim.Error(fmt.Sprintf("QuerySellSongrong-反序列化出错: %s", err))
 			}
-			realEstateList = append(songrong1List, songrong1)
+			songrong2List = append(songrong2List, songrong2)
 		}
 	}
-	songrong1ListByte, err := json.Marshal(songrong1List)
+	songrong2ListByte, err := json.Marshal(songrong2List)
 	if err != nil {
 		return shim.Error(fmt.Sprintf("QuerySellSongrong-序列化出错: %s", err))
 	}
-	return shim.Success(songrong1ListByte)
+	return shim.Success(songrong2ListByte)
 }
