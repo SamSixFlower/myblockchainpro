@@ -36,6 +36,7 @@ case "sellSongrong":
 	Amount   float64 `json:"amount"`    //售卖总量
 	Time  string `json:"time"`  //售卖时间
 	SellingStatus string  `json:"sellingStatus"` //销售状态
+ 	BuyerID string  `json:"buyerID"` //购买者
 }
 */
 // 新建松茸售卖信息(采购商)
@@ -71,8 +72,9 @@ func SellSongrong(stub shim.ChaincodeStubInterface, args []string) pb.Response {
 		SellerID:   accountId,
 		Place:    place,
 		Amount:  formattedAmount,
-		Time:  time.Unix(int64(createTime.GetSeconds()), int64(createTime.GetNanos())).Local().Format("2006-01-02 15:04:05"),,
+		Time:  time.Unix(int64(createTime.GetSeconds()), int64(createTime.GetNanos())).Local().Format("2006-01-02 15:04:05"),
 		SellingStatus: model.SellingStatusConstant()["saleStart"],
+		BuyerID: "",
 	}
 	// 写入账本
 	if err := utils.WriteLedger(songrong1, stub, model.SellsongrongKey, []string{songrong1.SongRongID, songrong1.SellerID}); err != nil {
