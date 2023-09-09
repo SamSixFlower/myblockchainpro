@@ -37,7 +37,7 @@ func BuySongrong(stub shim.ChaincodeStubInterface, args []string) pb.Response {
 	}
 	//将buyer写入交易selling,修改交易状态
 	songrong1.BuyerID = buyerID
-	songrong1.SellingStatus = "delivery"
+	songrong1.SellingStatus = model.SellingStatusConstant()["delivery"]
 	if err := utils.WriteLedger(songrong1, stub, model.SellsongrongKey, []string{songrongID, sellerID}); err != nil {
 		return shim.Error(fmt.Sprintf("将buyer写入交易songrong1,修改交易状态为待确认 失败%s", err))
 	}
@@ -108,7 +108,7 @@ func ConfirmSongrong(stub shim.ChaincodeStubInterface, args []string) pb.Respons
 	if err = json.Unmarshal(resultssongrong1[0], &songrong1); err != nil {
 		return shim.Error(fmt.Sprintf("ConfirmSongrong-反序列化出错: %s", err))
 	}
-	songrong1.SellingStatus = "confirm"
+	songrong1.SellingStatus = model.SellingStatusConstant()["confirm"]
 	if err := utils.WriteLedger(songrong1, stub, model.SellsongrongKey, []string{songrongID, sellerID}); err != nil {
 		return shim.Error(fmt.Sprintf("将confirm写入交易songrong1,修改交易状态为已确认 失败%s", err))
 	}
