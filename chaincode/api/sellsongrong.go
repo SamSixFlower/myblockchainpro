@@ -159,7 +159,7 @@ func CreateRealEstate(stub shim.ChaincodeStubInterface, args []string) pb.Respon
 }
 */
 
-// QueryRealEstateList 查询房地产(可查询所有，也可根据所有人查询名下房产)
+// QuerySellSongrong 查询售卖的松茸(可以供采购商和厂家查询，采购商只能传入自己的ID，厂家可以选择采购商ID进行传入)
 func QuerySellSongrong(stub shim.ChaincodeStubInterface, args []string) pb.Response {
 	var songrong1List []model.SongRong1
 	results, err := utils.GetStateByPartialCompositeKeys2(stub, model.SellsongrongKey, args)
