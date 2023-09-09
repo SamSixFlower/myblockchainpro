@@ -92,10 +92,10 @@ func UploadSongrong(stub shim.ChaincodeStubInterface, args []string) pb.Response
 	return shim.Success(songrong2Byte)
 }
 
-// QueryUploadSongrong 查询售卖的松茸(可以供采购商和厂家查询，采购商只能传入自己的ID，厂家可以选择采购商ID进行传入)
+// QueryUploadSongrong 查询分批后上链的松茸(传入类型和厂家ID)
 func QueryUploadSongrong(stub shim.ChaincodeStubInterface, args []string) pb.Response {
 	var songrong2List []model.SongRong2
-	results, err := utils.GetStateByPartialCompositeKeys2(stub, model.Sellsongrong2Key, args)
+	results, err := utils.GetStateByPartialCompositeKeys(stub, model.Sellsongrong2Key, args)
 	if err != nil {
 		return shim.Error(fmt.Sprintf("%s", err))
 	}
