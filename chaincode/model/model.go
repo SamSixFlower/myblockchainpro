@@ -40,6 +40,15 @@ type SellingBuy struct {
 	CreateTime string  `json:"createTime"` //创建时间
 	Selling    SongRong1 `json:"selling"`    //销售对象
 }
+
+// SellingStatusConstant 销售状态
+var SellingStatusConstant = func() map[string]string {
+	return map[string]string{
+		"saleStart": "销售中", //正在销售状态,等待买家光顾
+		"delivery":  "交付中", //买家买下并付款,处于等待卖家确认收款状态,如若卖家未能确认收款，买家可以取消并退款
+		"confirm":  "已确认",  //卖家确认接收资金，交易完成
+	}
+}
 /*
 // RealEstate 房地产作为担保出售、捐赠或质押时Encumbrance为true，默认状态false。
 // 仅当Encumbrance为false时，才可发起出售、捐赠或质押
@@ -65,16 +74,7 @@ type Selling struct {
 	SellingStatus string  `json:"sellingStatus"` //销售状态
 }
 
-// SellingStatusConstant 销售状态
-var SellingStatusConstant = func() map[string]string {
-	return map[string]string{
-		"saleStart": "销售中", //正在销售状态,等待买家光顾
-		"cancelled": "已取消", //被卖家取消销售或买家退款操作导致取消
-		"expired":   "已过期", //销售期限到期
-		"delivery":  "交付中", //买家买下并付款,处于等待卖家确认收款状态,如若卖家未能确认收款，买家可以取消并退款
-		"done":      "完成",  //卖家确认接收资金，交易完成
-	}
-}
+
 
 // Donating 捐赠要约
 // 需要确定ObjectOfDonating是否属于Donor
