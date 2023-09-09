@@ -30,6 +30,7 @@ type SongRong2 struct {
 
 type SongRong3 struct {
 	ProductID string  `json:"productId"` //产品号ID
+	FactoryID string  `json:"factoryId"` //厂家ID
 	SongRong2ID string  `json:"songrongeId"` //产品装的松茸的ID
 	Time  string `json:"time"`  //包装时间
 }
