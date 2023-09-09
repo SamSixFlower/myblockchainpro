@@ -76,7 +76,7 @@ func BuySongrong(stub shim.ChaincodeStubInterface, args []string) pb.Response {
 // QuerySellingBuyList 查询销售(传入类型和采购商ID)
 func QuerySellingBuyList(stub shim.ChaincodeStubInterface, args []string) pb.Response {
 	var sellingBuyList []model.SellingBuy
-	results, err := utils.GetStateByPartialCompositeKeys(stub, model.SellingBuyKey, args)
+	results, err := utils.GetStateByPartialCompositeKeys2(stub, model.SellingBuyKey, args)
 	if err != nil {
 		return shim.Error(fmt.Sprintf("%s", err))
 	}
@@ -147,7 +147,7 @@ func ConfirmSongrong(stub shim.ChaincodeStubInterface, args []string) pb.Respons
 // QuerySellingConfirmList 查询销售(传入类型和厂家ID)
 func QuerySellingConfirmList(stub shim.ChaincodeStubInterface, args []string) pb.Response {
 	var sellingConfirmList []model.SellingConfirm
-	results, err := utils.GetStateByPartialCompositeKeys(stub, model.SellingConfirmKey, args)
+	results, err := utils.GetStateByPartialCompositeKeys2(stub, model.SellingConfirmKey, args)
 	if err != nil {
 		return shim.Error(fmt.Sprintf("%s", err))
 	}
