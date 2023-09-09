@@ -7,7 +7,7 @@ type Account struct {
 }
 
 type SongRong1 struct {
-	SongRongID string  `json:"songrongeId"` //本批松茸ID
+	SongRongID string  `json:"songrongId"` //本批松茸ID
 	SellerID   string  `json:"sellerID"`   //采购商ID
 	Place  string    `json:"place"`  //松茸产地
 	Amount   float64 `json:"amount"`    //售卖总量
@@ -17,11 +17,13 @@ type SongRong1 struct {
 }
 
 type SongRong2 struct {
-	SongRong2ID string  `json:"songrongeId"` //分装后松茸ID
+	SongRong2ID string  `json:"songrong2Id"` //分装后松茸ID
+	FactoryID string  `json:"factoryId"` //厂家ID
 	Umbrella   string  `json:"umbrella"`   //开伞情况
 	Place  string    `json:"place"`  //松茸产地
 	Size   string `json:"size"`    //松茸大小
 	Storage string `json:"storage"`    //库存时状态
+	Time  string `json:"time"`  //上链时间
 	Time1  string `json:"time"`  //入库时间
 	Time2  string `json:"time"`  //出库时间
 }
