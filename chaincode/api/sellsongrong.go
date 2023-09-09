@@ -172,7 +172,7 @@ func QuerySellSongrong(stub shim.ChaincodeStubInterface, args []string) pb.Respo
 			if err != nil {
 				return shim.Error(fmt.Sprintf("QuerySellSongrong-反序列化出错: %s", err))
 			}
-			realEstateList = append(songrong1List, songrong1)
+			songrong1List = append(songrong1List, songrong1)
 		}
 	}
 	songrong1ListByte, err := json.Marshal(songrong1List)
