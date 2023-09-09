@@ -1,6 +1,6 @@
 package model
 
-// Account 账户，虚拟管理员和若干业主账号
+// Account 账户，一个虚拟采购商和一个虚拟厂家
 type Account struct {
 	AccountId string  `json:"accountId"` //账号ID
 	UserName  string  `json:"userName"`  //账号名
