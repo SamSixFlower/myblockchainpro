@@ -20,7 +20,7 @@ func BuySongrong(stub shim.ChaincodeStubInterface, args []string) pb.Response {
 		return shim.Error(fmt.Sprintf("BuySongrong-反序列化出错: %s", err))
 	}
 	//判断songrong1的状态是否为销售中
-	if songrong1.SellingStatus != "saleStart" {
+	if songrong1.SellingStatus != model.SellingStatusConstant()["saleStart"] {
 		return shim.Error("此交易不属于销售中状态，已经无法购买")
 	}
 	//根据buyer获取买家信息
