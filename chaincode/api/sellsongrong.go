@@ -158,10 +158,10 @@ func CreateRealEstate(stub shim.ChaincodeStubInterface, args []string) pb.Respon
 }
 */
 
-// QuerySellSongrong 查询售卖的松茸(可以供采购商和厂家查询，采购商只能传入自己的ID，厂家可以选择采购商ID进行传入)
+// QuerySellSongrong 查询售卖的松茸(传入类型和采购商ID)
 func QuerySellSongrong(stub shim.ChaincodeStubInterface, args []string) pb.Response {
 	var songrong1List []model.SongRong1
-	results, err := utils.GetStateByPartialCompositeKeys2(stub, model.SellsongrongKey, args)
+	results, err := utils.GetStateByPartialCompositeKeys(stub, model.SellsongrongKey, args)
 	if err != nil {
 		return shim.Error(fmt.Sprintf("%s", err))
 	}
