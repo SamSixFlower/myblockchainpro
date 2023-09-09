@@ -29,13 +29,13 @@ case "sellSongrong":
 		return api.QueryignSongrong(stub, args)
 	case "querySignBaozhuang":
 		return api.QuerySignBaozhuang(stub, args)
-  type SongRong1 struct {
+ type SongRong1 struct {
 	SongRongID string  `json:"songrongeId"` //本批松茸ID
 	SellerID   string  `json:"sellerID"`   //采购商ID
 	Place  string    `json:"place"`  //松茸产地
 	Amount   float64 `json:"amount"`    //售卖总量
 	Time  string `json:"time"`  //售卖时间
- 	State bool `json:"state"`  //是否被购买
+	SellingStatus string  `json:"sellingStatus"` //销售状态
 }
 */
 // 新建松茸售卖信息(采购商)
