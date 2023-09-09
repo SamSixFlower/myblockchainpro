@@ -95,7 +95,7 @@ func UploadSongrong(stub shim.ChaincodeStubInterface, args []string) pb.Response
 // QueryUploadSongrong 查询分批后上链的松茸(传入类型和厂家ID)
 func QueryUploadSongrong(stub shim.ChaincodeStubInterface, args []string) pb.Response {
 	var songrong2List []model.SongRong2
-	results, err := utils.GetStateByPartialCompositeKeys(stub, model.Sellsongrong2Key, args)
+	results, err := utils.GetStateByPartialCompositeKeys2(stub, model.Sellsongrong2Key, args)
 	if err != nil {
 		return shim.Error(fmt.Sprintf("%s", err))
 	}
