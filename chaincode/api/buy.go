@@ -21,7 +21,7 @@ func BuySongrong(stub shim.ChaincodeStubInterface, args []string) pb.Response {
 		return shim.Error("此交易不属于销售中状态，已经无法购买")
 	}
 	//根据buyer获取买家信息
-	resultsAccount, err := utils.GetStateByPartialCompositeKeys(stub, model.AccountKey, []string{buyer})
+	resultsAccount, err := utils.GetStateByPartialCompositeKeys(stub, model.AccountKey, []string{buyerID})
 	if err != nil || len(resultsAccount) != 1 {
 		return shim.Error(fmt.Sprintf("buyer买家信息验证失败%s", err))
 	}
