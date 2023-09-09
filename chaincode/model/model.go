@@ -125,6 +125,7 @@ const (
 	AccountKey         = "account-key"
 	SellSongrongKey      = "sell-songrong-key"
 	SellSongrong2Key      = "sell-songrong2-key"
+	SellSongrong3Key      = "sell-songrong3-key"
 	SellingBuyKey      = "selling-buy-key"
 	SellingConfirmKey      = "selling-confirm-key"
 	
