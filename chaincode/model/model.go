@@ -116,9 +116,9 @@ const (
 const (
 	AccountKey         = "account-key"
 	SellSongrongKey      = "sell-songrong-key"
+	SellingBuyKey      = "selling-buy-key"
 	
 	SellingKey         = "selling-key"
-	SellingBuyKey      = "selling-buy-key"
 	DonatingKey        = "donating-key"
 	DonatingGranteeKey = "donating-grantee-key"
 )
