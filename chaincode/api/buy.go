@@ -58,3 +58,27 @@ func BuySongrong(stub shim.ChaincodeStubInterface, args []string) pb.Response {
 	// 成功返回
 	return shim.Success(sellingBuyByte)
 }
+
+// QuerySellingList 查询销售(可查询所有，也可根据发起销售人查询)(发起的)(供卖家查询)
+func QuerySellingList(stub shim.ChaincodeStubInterface, args []string) pb.Response {
+	var sellingList []model.Selling
+	results, err := utils.GetStateByPartialCompositeKeys2(stub, model.SellingKey, args)
+	if err != nil {
+		return shim.Error(fmt.Sprintf("%s", err))
+	}
+	for _, v := range results {
+		if v != nil {
+			var selling model.Selling
+			err := json.Unmarshal(v, &selling)
+			if err != nil {
+				return shim.Error(fmt.Sprintf("QuerySellingList-反序列化出错: %s", err))
+			}
+			sellingList = append(sellingList, selling)
+		}
+	}
+	sellingListByte, err := json.Marshal(sellingList)
+	if err != nil {
+		return shim.Error(fmt.Sprintf("QuerySellingList-序列化出错: %s", err))
+	}
+	return shim.Success(sellingListByte)
+}
