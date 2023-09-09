@@ -12,6 +12,9 @@ func BuySongrong(stub shim.ChaincodeStubInterface, args []string) pb.Response {
 	}
 	//取出要购买的松茸批次
   	resultssongrong1, err := utils.GetStateByPartialCompositeKeys2(stub, model.SellsongrongKey, []string{songrongID, sellerID})
+	if err != nil || len(resultssongrong1) != 1 {
+		return shim.Error(fmt.Sprintf("所要购买的松茸验证失败%s", err))
+	}
 	var songrong1 model.SongRong1
 	if err = json.Unmarshal(resultssongrong1[0], &songrong1); err != nil {
 		return shim.Error(fmt.Sprintf("BuySongrong-反序列化出错: %s", err))
