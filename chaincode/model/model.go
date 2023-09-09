@@ -122,7 +122,7 @@ const (
 	AccountKey         = "account-key"
 	SellSongrongKey      = "sell-songrong-key"
 	SellingBuyKey      = "selling-buy-key"
-	SellingConfirm      = "selling-confirm-key"
+	SellingConfirmKey      = "selling-confirm-key"
 	
 	SellingKey         = "selling-key"
 	DonatingKey        = "donating-key"
