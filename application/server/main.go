@@ -19,7 +19,6 @@ func main() {
 	time.Local = timeLocal
 
 	blockchain.Init()
-	go cron.Init()
 
 	endPoint := fmt.Sprintf("0.0.0.0:%d", 8888)
 	server := &http.Server{
