@@ -45,48 +45,26 @@ func (t *BlockChainSuYuan) Invoke(stub shim.ChaincodeStubInterface) pb.Response 
 		return api.Hello(stub, args)
 	case "queryAccountList":
 		return api.QueryAccountList(stub, args)
-
-/*
-	case "createRealEstate":
-		return api.CreateRealEstate(stub, args)
-	case "queryRealEstateList":
-		return api.QueryRealEstateList(stub, args)
-	case "createSelling":
-		return api.CreateSelling(stub, args)
-	case "createSellingByBuy":
-		return api.CreateSellingByBuy(stub, args)
-	case "querySellingList":
-		return api.QuerySellingList(stub, args)
-	case "querySellingListByBuyer":
-		return api.QuerySellingListByBuyer(stub, args)
-	case "updateSelling":
-		return api.UpdateSelling(stub, args)
-	case "createDonating":
-		return api.CreateDonating(stub, args)
-	case "queryDonatingList":
-		return api.QueryDonatingList(stub, args)
-	case "queryDonatingListByGrantee":
-		return api.QueryDonatingListByGrantee(stub, args)
-	case "updateDonating":
-		return api.UpdateDonating(stub, args)
-*/
-		
 	case "sellSongrong":
 		return api.SellSongrong(stub, args)
 	case "buySongrong":
 		return api.BuySongrong(stub, args)
-	case "signSongrong":
-		return api.SignSongrong(stub, args)
-	case "signBaozhuang":
-		return api.SignBaozhuang(stub, args)
+	case "confirmSongrong":
+		return api.ConfirmSongrong(stub, args)
+	case "uploadSongrong":
+		return api.UploadSongrong(stub, args)
+	case "packingSongrong":
+		return api.PackingSongrong(stub, args)
 	case "querySellSongrong":
 		return api.QuerySellSongrong(stub, args)
-	case "queryBuySongrong":
-		return api.QueryBuySongrong(stub, args)
-	case "querySignSongrong":
-		return api.QueryignSongrong(stub, args)
-	case "querySignBaozhuang":
-		return api.QuerySignBaozhuang(stub, args)
+	case "querySellingBuyList":
+		return api.QuerySellingBuyList(stub, args)
+	case "querySellingConfirmList":
+		return api.QuerySellingConfirmList(stub, args)
+	case "queryUploadSongrong":
+		return api.QueryUploadSongrong(stub, args)
+	case "queryPackingSongrong":
+		return api.QueryPackingSongrong(stub, args)
 	default:
 		return shim.Error(fmt.Sprintf("没有该功能: %s", funcName))
 	}
