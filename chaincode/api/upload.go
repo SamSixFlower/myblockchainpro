@@ -46,7 +46,7 @@ case "sellSongrong":
 func UploadSongrong(stub shim.ChaincodeStubInterface, args []string) pb.Response {
 	//传入厂家id，开伞情况，来源的松茸id，松茸大小，库存时状态，入库时间，出库时间
 	accountId := args[0] //accountId用于验证是否为厂家
-	Umbrella := args[1]
+	umbrella := args[1]
 	songrongID := args[2]
   	size := args[3]
   	storage := args[4]
