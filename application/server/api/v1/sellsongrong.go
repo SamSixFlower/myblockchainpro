@@ -65,7 +65,7 @@ func QuerySellSongrong(c *gin.Context) {
 		bodyBytes = append(bodyBytes, []byte(body.AccountId))
 	}
 	//调用智能合约
-	resp, err := bc.ChannelQuery("querysellsongrong", bodyBytes)
+	resp, err := bc.ChannelQuery("querySellSongrong", bodyBytes)
 	if err != nil {
 		appG.Response(http.StatusInternalServerError, "失败", err.Error())
 		return
