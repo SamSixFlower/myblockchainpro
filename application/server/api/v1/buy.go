@@ -46,9 +46,9 @@ func BuySongrong(c *gin.Context) {
 	var bodyBytes [][]byte
 	bodyBytes = append(bodyBytes, []byte(body.SongrongID))
 	bodyBytes = append(bodyBytes, []byte(body.SellerID))
-  bodyBytes = append(bodyBytes, []byte(body.BuyerID))
+  	bodyBytes = append(bodyBytes, []byte(body.BuyerID))
 	//调用智能合约
-	resp, err := bc.ChannelExecute("buysongrong", bodyBytes)
+	resp, err := bc.ChannelExecute("buySongrong", bodyBytes)
 	if err != nil {
 		appG.Response(http.StatusInternalServerError, "失败", err.Error())
 		return
@@ -75,10 +75,9 @@ func ConfirmSongrong(c *gin.Context) {
 	}
 	var bodyBytes [][]byte
 	bodyBytes = append(bodyBytes, []byte(body.SongrongID))
-	bodyBytes = append(bodyBytes, []byte(body.Seller))
-	bodyBytes = append(bodyBytes, []byte(body.Buyer))
+	bodyBytes = append(bodyBytes, []byte(body.SellerID))
 	//调用智能合约
-	resp, err := bc.ChannelExecute("createSellingByBuy", bodyBytes)
+	resp, err := bc.ChannelExecute("confirmSongrong", bodyBytes)
 	if err != nil {
 		appG.Response(http.StatusInternalServerError, "失败", err.Error())
 		return
@@ -91,20 +90,20 @@ func ConfirmSongrong(c *gin.Context) {
 	appG.Response(http.StatusOK, "成功", data)
 }
 
-func QuerySellingList(c *gin.Context) {
+func QuerySellingBuyList(c *gin.Context) {
 	appG := app.Gin{C: c}
-	body := new(SellingListQueryRequestBody)
+	body := new(QuerySellingBuyListRequestBody)
 	//解析Body参数
 	if err := c.ShouldBind(body); err != nil {
 		appG.Response(http.StatusBadRequest, "失败", fmt.Sprintf("参数出错%s", err.Error()))
 		return
 	}
 	var bodyBytes [][]byte
-	if body.Seller != "" {
-		bodyBytes = append(bodyBytes, []byte(body.Seller))
+	if body.SellerID != "" {
+		bodyBytes = append(bodyBytes, []byte(body.SellerID))
 	}
 	//调用智能合约
-	resp, err := bc.ChannelQuery("querySellingList", bodyBytes)
+	resp, err := bc.ChannelQuery("querySellingBuyList", bodyBytes)
 	if err != nil {
 		appG.Response(http.StatusInternalServerError, "失败", err.Error())
 		return
@@ -118,22 +117,22 @@ func QuerySellingList(c *gin.Context) {
 	appG.Response(http.StatusOK, "成功", data)
 }
 
-func QuerySellingListByBuyer(c *gin.Context) {
+func QuerySellingConfirmList(c *gin.Context) {
 	appG := app.Gin{C: c}
-	body := new(SellingListQueryByBuyRequestBody)
+	body := new(QuerySellingConfirmListRequestBody)
 	//解析Body参数
 	if err := c.ShouldBind(body); err != nil {
 		appG.Response(http.StatusBadRequest, "失败", fmt.Sprintf("参数出错%s", err.Error()))
 		return
 	}
-	if body.Buyer == "" {
-		appG.Response(http.StatusBadRequest, "失败", "必须指定买家AccountId查询")
+	if body.BuyerID == "" {
+		appG.Response(http.StatusBadRequest, "失败", "必须指定BuyerId查询")
 		return
 	}
 	var bodyBytes [][]byte
-	bodyBytes = append(bodyBytes, []byte(body.Buyer))
+	bodyBytes = append(bodyBytes, []byte(body.BuyerID))
 	//调用智能合约
-	resp, err := bc.ChannelQuery("querySellingListByBuyer", bodyBytes)
+	resp, err := bc.ChannelQuery("querySellingConfirmList", bodyBytes)
 	if err != nil {
 		appG.Response(http.StatusInternalServerError, "失败", err.Error())
 		return
