@@ -39,8 +39,7 @@ func SellSongrong(c *gin.Context) {
 	bodyBytes = append(bodyBytes, []byte(body.Place))
 	bodyBytes = append(bodyBytes, []byte(strconv.FormatFloat(body.Amount, 'E', -1, 64)))
 	//调用智能合约
-	resp, err := bc.ChannelExecute("sellSongrong
-                                 ", bodyBytes)
+	resp, err := bc.ChannelExecute("sellSongrong", bodyBytes)
 	if err != nil {
 		appG.Response(http.StatusInternalServerError, "失败", err.Error())
 		return
