@@ -17,9 +17,9 @@ type UploadSongrongRequestBody struct {
 	Umbrella  string  `json:"umbrella"`  //是否开伞
 	SongrongID   string `json:"songrongID"`   //来自哪个批次的松茸ID
 	Size string `json:"size"` //大小
-  Storage string `json:"storage"` //存储情况
-  Time1 string `json:"time1"` //入库时间
-  Time2 string `json:"time2"` //出库时间
+  	Storage string `json:"storage"` //存储情况
+  	Time1 string `json:"time1"` //入库时间
+  	Time2 string `json:"time2"` //出库时间
 }
 
 type QueryUploadSongrongRequestBody struct {
@@ -41,11 +41,11 @@ func UploadSongrong(c *gin.Context) {
 	var bodyBytes [][]byte
 	bodyBytes = append(bodyBytes, []byte(body.AccountId))
 	bodyBytes = append(bodyBytes, []byte(body.Umbrella))
-  bodyBytes = append(bodyBytes, []byte(body.SongrongID))
-  bodyBytes = append(bodyBytes, []byte(body.Size))
-  bodyBytes = append(bodyBytes, []byte(body.Storage))
-  bodyBytes = append(bodyBytes, []byte(body.Time1))
-  bodyBytes = append(bodyBytes, []byte(body.Time2))
+  	bodyBytes = append(bodyBytes, []byte(body.SongrongID))
+  	bodyBytes = append(bodyBytes, []byte(body.Size))
+  	bodyBytes = append(bodyBytes, []byte(body.Storage))
+  	bodyBytes = append(bodyBytes, []byte(body.Time1))
+  	bodyBytes = append(bodyBytes, []byte(body.Time2))
 	//调用智能合约
 	resp, err := bc.ChannelExecute("uploadSongrong", bodyBytes)
 	if err != nil {
