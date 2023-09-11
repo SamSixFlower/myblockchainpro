@@ -30,8 +30,8 @@ func SellSongrong(c *gin.Context) {
 		appG.Response(http.StatusBadRequest, "失败", fmt.Sprintf("参数出错%s", err.Error()))
 		return
 	}
-	if body.TotalArea <= 0 || body.LivingSpace <= 0 || body.LivingSpace > body.TotalArea {
-		appG.Response(http.StatusBadRequest, "失败", "TotalArea总面积和LivingSpace生活空间必须大于0，且生活空间小于等于总面积")
+	if body.Amount  < 0  {
+		appG.Response(http.StatusBadRequest, "失败", "售卖量必须大于0")
 		return
 	}
 	var bodyBytes [][]byte
@@ -53,20 +53,20 @@ func SellSongrong(c *gin.Context) {
 	appG.Response(http.StatusOK, "成功", data)
 }
 
-func QueryRealEstateList(c *gin.Context) {
+func QuerySellSongrong(c *gin.Context) {
 	appG := app.Gin{C: c}
-	body := new(RealEstateQueryRequestBody)
+	body := new(SongrongQueryRequestBody)
 	//解析Body参数
 	if err := c.ShouldBind(body); err != nil {
 		appG.Response(http.StatusBadRequest, "失败", fmt.Sprintf("参数出错%s", err.Error()))
 		return
 	}
 	var bodyBytes [][]byte
-	if body.Proprietor != "" {
-		bodyBytes = append(bodyBytes, []byte(body.Proprietor))
+	if body.AccountId != "" {
+		bodyBytes = append(bodyBytes, []byte(body.AccountId))
 	}
 	//调用智能合约
-	resp, err := bc.ChannelQuery("queryRealEstateList", bodyBytes)
+	resp, err := bc.ChannelQuery("querysellsongrong", bodyBytes)
 	if err != nil {
 		appG.Response(http.StatusInternalServerError, "失败", err.Error())
 		return
