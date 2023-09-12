@@ -7,7 +7,6 @@ import (
 	"chaincode/pkg/utils"
 	"encoding/json"
 	"fmt"
-	"strconv"
 	"time"
 
 	"github.com/hyperledger/fabric/core/chaincode/shim"
@@ -80,7 +79,7 @@ func UploadSongrong(stub shim.ChaincodeStubInterface, args []string) pb.Response
 		Time2: time2,
 	}
 	// 写入账本
-	if err := utils.WriteLedger(songrong2, stub, model.Sellsongrong2Key, []string{songrong2.SongRong2ID, songrong2.FactoryID}); err != nil {
+	if err := utils.WriteLedger(songrong2, stub, model.SellSongrong2Key, []string{songrong2.SongRong2ID, songrong2.FactoryID}); err != nil {
 		return shim.Error(fmt.Sprintf("%s", err))
 	}
 	//将成功创建的信息返回
@@ -95,7 +94,7 @@ func UploadSongrong(stub shim.ChaincodeStubInterface, args []string) pb.Response
 // QueryUploadSongrong 查询分批后上链的松茸(传入类型和厂家ID)
 func QueryUploadSongrong(stub shim.ChaincodeStubInterface, args []string) pb.Response {
 	var songrong2List []model.SongRong2
-	results, err := utils.GetStateByPartialCompositeKeys2(stub, model.Sellsongrong2Key, args)
+	results, err := utils.GetStateByPartialCompositeKeys2(stub, model.SellSongrong2Key, args)
 	if err != nil {
 		return shim.Error(fmt.Sprintf("%s", err))
 	}
