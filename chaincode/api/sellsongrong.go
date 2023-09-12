@@ -78,7 +78,7 @@ func SellSongrong(stub shim.ChaincodeStubInterface, args []string) pb.Response {
 		BuyerID: "",
 	}
 	// 写入账本
-	if err := utils.WriteLedger(songrong1, stub, model.SellsongrongKey, []string{songrong1.SongRongID, songrong1.SellerID}); err != nil {
+	if err := utils.WriteLedger(songrong1, stub, model.SellSongrongKey, []string{songrong1.SongRongID, songrong1.SellerID}); err != nil {
 		return shim.Error(fmt.Sprintf("%s", err))
 	}
 	//将成功创建的信息返回
@@ -161,7 +161,7 @@ func CreateRealEstate(stub shim.ChaincodeStubInterface, args []string) pb.Respon
 // QuerySellSongrong 查询售卖的松茸(传入类型和采购商ID)
 func QuerySellSongrong(stub shim.ChaincodeStubInterface, args []string) pb.Response {
 	var songrong1List []model.SongRong1
-	results, err := utils.GetStateByPartialCompositeKeys2(stub, model.SellsongrongKey, args)
+	results, err := utils.GetStateByPartialCompositeKeys2(stub, model.SellSongrongKey, args)
 	if err != nil {
 		return shim.Error(fmt.Sprintf("%s", err))
 	}
