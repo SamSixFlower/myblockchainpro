@@ -8,7 +8,6 @@ import (
 	"chaincode/pkg/utils"
 	"encoding/json"
 	"fmt"
-	"strconv"
 	"time"
 
 	"github.com/hyperledger/fabric/core/chaincode/shim"
@@ -50,7 +49,7 @@ func PackingSongrong(stub shim.ChaincodeStubInterface, args []string) pb.Respons
 		Time:  time.Unix(int64(createTime.GetSeconds()), int64(createTime.GetNanos())).Local().Format("2006-01-02 15:04:05"),
 	}
 	// 写入账本
-	if err := utils.WriteLedger(songrong3, stub, model.Sellsongrong3Key, []string{songrong3.ProductID, songrong3.FactoryID}); err != nil {
+	if err := utils.WriteLedger(songrong3, stub, model.SellSongrong3Key, []string{songrong3.ProductID, songrong3.FactoryID}); err != nil {
 		return shim.Error(fmt.Sprintf("%s", err))
 	}
 	//将成功创建的信息返回
@@ -65,7 +64,7 @@ func PackingSongrong(stub shim.ChaincodeStubInterface, args []string) pb.Respons
 // QueryPackingSongrong 查询包装(传入类型和厂家ID)
 func QueryPackingSongrong(stub shim.ChaincodeStubInterface, args []string) pb.Response {
 	var songrong3List []model.SongRong3
-	results, err := utils.GetStateByPartialCompositeKeys2(stub, model.Sellsongrong3Key, args)
+	results, err := utils.GetStateByPartialCompositeKeys2(stub, model.SellSongrong3Key, args)
 	if err != nil {
 		return shim.Error(fmt.Sprintf("%s", err))
 	}
