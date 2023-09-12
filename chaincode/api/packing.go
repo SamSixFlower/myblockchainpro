@@ -4,7 +4,7 @@
 package api
 
 import (
-  "chaincode/model"
+	"chaincode/model"
 	"chaincode/pkg/utils"
 	"encoding/json"
 	"fmt"
