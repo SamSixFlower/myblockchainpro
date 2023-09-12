@@ -5,7 +5,6 @@ import (
 	"chaincode/pkg/utils"
 	"encoding/json"
 	"fmt"
-	"strconv"
 	"time"
 
 	"github.com/hyperledger/fabric/core/chaincode/shim"
@@ -25,7 +24,7 @@ func BuySongrong(stub shim.ChaincodeStubInterface, args []string) pb.Response {
 		return shim.Error("买家和卖家不能同一人")
 	}
 	//取出要购买的松茸批次
-  	resultssongrong1, err := utils.GetStateByPartialCompositeKeys2(stub, model.SellsongrongKey, []string{songrongID, sellerID})
+  	resultssongrong1, err := utils.GetStateByPartialCompositeKeys2(stub, model.SellSongrongKey, []string{songrongID, sellerID})
 	if err != nil || len(resultssongrong1) != 1 {
 		return shim.Error(fmt.Sprintf("所要购买的松茸验证失败%s", err))
 	}
@@ -52,7 +51,7 @@ func BuySongrong(stub shim.ChaincodeStubInterface, args []string) pb.Response {
 	//将buyer写入交易selling,修改交易状态
 	songrong1.BuyerID = buyerID
 	songrong1.SellingStatus = model.SellingStatusConstant()["delivery"]
-	if err := utils.WriteLedger(songrong1, stub, model.SellsongrongKey, []string{songrongID, sellerID}); err != nil {
+	if err := utils.WriteLedger(songrong1, stub, model.SellSongrongKey, []string{songrongID, sellerID}); err != nil {
 		return shim.Error(fmt.Sprintf("将buyer写入交易songrong1,修改交易状态为待确认 失败%s", err))
 	}
 	createTime, _ := stub.GetTxTimestamp()
@@ -101,6 +100,7 @@ func QuerySellingBuyList(stub shim.ChaincodeStubInterface, args []string) pb.Res
 func ConfirmSongrong(stub shim.ChaincodeStubInterface, args []string) pb.Response {
 	songrongID := args[0]
 	sellerID := args[1]
+	buyerID := args[2]
 	if songrongID == "" || sellerID == "" {
 		return shim.Error("参数存在空值")
 	}
@@ -114,16 +114,16 @@ func ConfirmSongrong(stub shim.ChaincodeStubInterface, args []string) pb.Respons
 		return shim.Error(fmt.Sprintf("查询操作人信息-反序列化出错: %s", err))
 	}
 	//根据songrongID和sellerID获取想要购买的房产信息，确认存在该房产
-	resultssongrong1, err := utils.GetStateByPartialCompositeKeys2(stub, model.SellsongrongKey, []string{songrongID, sellerID})
+	resultssongrong1, err := utils.GetStateByPartialCompositeKeys2(stub, model.SellSongrongKey, []string{songrongID, sellerID})
 	if err != nil || len(resultssongrong1) != 1 {
-		return shim.Error(fmt.Sprintf("根据%s和%s获取想要购买的松茸信息失败: %s", osongrongID, sellerID, err))
+		return shim.Error(fmt.Sprintf("根据%s和%s获取想要购买的松茸信息失败: %s", songrongID, sellerID, err))
 	}
 	var songrong1 model.SongRong1
 	if err = json.Unmarshal(resultssongrong1[0], &songrong1); err != nil {
 		return shim.Error(fmt.Sprintf("ConfirmSongrong-反序列化出错: %s", err))
 	}
 	songrong1.SellingStatus = model.SellingStatusConstant()["confirm"]
-	if err := utils.WriteLedger(songrong1, stub, model.SellsongrongKey, []string{songrongID, sellerID}); err != nil {
+	if err := utils.WriteLedger(songrong1, stub, model.SellSongrongKey, []string{songrongID, sellerID}); err != nil {
 		return shim.Error(fmt.Sprintf("将confirm写入交易songrong1,修改交易状态为已确认 失败%s", err))
 	}
 	createTime, _ := stub.GetTxTimestamp()
