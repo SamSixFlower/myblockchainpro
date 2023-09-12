@@ -84,3 +84,4 @@ func QueryUploadSongrong(c *gin.Context) {
 		return
 	}
 	appG.Response(http.StatusOK, "成功", data)
+}
