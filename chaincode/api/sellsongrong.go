@@ -53,7 +53,7 @@ func SellSongrong(stub shim.ChaincodeStubInterface, args []string) pb.Response {
 	if val, err := strconv.ParseFloat(amount, 64); err != nil {
 		return shim.Error(fmt.Sprintf("参数格式转换出错: %s", err))
 	} else {
-		formattedLAmount = val
+		formattedAmount = val
 	}
 	//判断是否采购商操作
 	resultsAccount, err := utils.GetStateByPartialCompositeKeys(stub, model.AccountKey, []string{accountId})
