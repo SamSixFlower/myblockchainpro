@@ -13,17 +13,16 @@ func InitRouter() *gin.Engine {
 	{
 		apiV1.GET("/hello", v1.Hello)
 		apiV1.POST("/queryAccountList", v1.QueryAccountList)
-		apiV1.POST("/createRealEstate", v1.CreateRealEstate)
-		apiV1.POST("/queryRealEstateList", v1.QueryRealEstateList)
-		apiV1.POST("/createSelling", v1.CreateSelling)
-		apiV1.POST("/createSellingByBuy", v1.CreateSellingByBuy)
-		apiV1.POST("/querySellingList", v1.QuerySellingList)
-		apiV1.POST("/querySellingListByBuyer", v1.QuerySellingListByBuyer)
-		apiV1.POST("/updateSelling", v1.UpdateSelling)
-		apiV1.POST("/createDonating", v1.CreateDonating)
-		apiV1.POST("/queryDonatingList", v1.QueryDonatingList)
-		apiV1.POST("/queryDonatingListByGrantee", v1.QueryDonatingListByGrantee)
-		apiV1.POST("/updateDonating", v1.UpdateDonating)
+		apiV1.POST("/buySongrong", v1.BuySongrong)
+		apiV1.POST("/confirmSongrong", v1.ConfirmSongrong)
+		apiV1.POST("/querySellingBuyList", v1.QuerySellingBuyList)
+		apiV1.POST("/querySellingConfirmList", v1.QuerySellingConfirmList)
+		apiV1.POST("/sellSongrong", v1.SellSongrong)
+		apiV1.POST("/querySellSongrong", v1.QuerySellSongrong)
+		apiV1.POST("/uploadSongrong", v1.UploadSongrong)
+		apiV1.POST("/queryUploadSongrong", v1.QueryUploadSongrong)
+		apiV1.POST("/packingSongrong", v1.PackingSongrong)
+		apiV1.POST("/queryPackingSongrong", v1.QueryPackingSongrong)
 	}
 	return r
 }
