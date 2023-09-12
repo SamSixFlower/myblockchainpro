@@ -15,7 +15,7 @@ type BlockChainSuYuan struct {
 }
 
 // Init 链码初始化
-func (t *BlockChainRealEstate) Init(stub shim.ChaincodeStubInterface) pb.Response {
+func (t *BlockChainSuYuan) Init(stub shim.ChaincodeStubInterface) pb.Response {
 	fmt.Println("链码初始化")
 	//初始化默认数据
 	var accountIds = [6]string{
