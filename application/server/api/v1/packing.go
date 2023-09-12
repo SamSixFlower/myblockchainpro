@@ -16,7 +16,7 @@ type PackingSongrongRequestBody struct {
 	Songrong2ID   string  `json:"songrong2ID"`   //操作人ID
 }
 
-type QueryPackingSongrong struct {
+type QueryPackingSongrongRequestBody struct {
 	BuyerID string `json:"buyerID"` //所有者(业主)(业主AccountId)
 }
 
